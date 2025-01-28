@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { data, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 const LoginPage = () => {
   const [number, setNumber] = useState();
   const [password, setPassword] = useState();
-  const token = localStorage.getItem("TOKEN");
-  const [message] = localStorage.getItem("Message");
+
 
   const navigate = useNavigate();
 
-  console.log(number, password);
 
   const login = async (e) => {
     e.preventDefault();
@@ -32,21 +31,16 @@ const LoginPage = () => {
       localStorage.setItem("TOKEN", data.data.tokens.accessToken.token);
       localStorage.setItem("Message", data.success);
 
-      console.log(data.message);
-
-      console.log(data.data.tokens.accessToken.token, data.success);
-
-      if(data.data.tokens.accessToken.token && data.success) {
-        navigate("/dashboard")
-      }else{
-        navigate("login")
+      if (data.data.tokens.accessToken.token && data.success) {
+        toast.success("Success");
+        navigate("/categories");
+      } else {
+        navigate("login");
       }
     } catch (error) {
-      console.error("Login xatosi:", error.response?.data || error.message);
+      toast.error("Error");
     }
   };
-
-
 
   return (
     <div className="flex flex-col items-center justify-center h-[100vh] px-[20px]">
@@ -90,6 +84,7 @@ const LoginPage = () => {
           Login
         </button>
       </form>
+      <ToastContainer />
     </div>
   );
 };
