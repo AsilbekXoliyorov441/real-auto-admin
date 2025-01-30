@@ -14,6 +14,8 @@ const CategoriesPage = () => {
   const formData = new FormData();
   const [refresh, setRefresh] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [editData, setEditData] = useState(null);
 
   formData.append("name_en", nameEn);
   formData.append("name_ru", nameRu);
@@ -57,23 +59,23 @@ const CategoriesPage = () => {
   const handleSort = (e) => {
     setSortType(e.target.value);
   };
+  const getData = async () => {
+    const token = localStorage.getItem("TOKEN");
+    const ApiUrl = "https://realauto.limsa.uz/api/categories";
+
+    try {
+      const { data: res } = await axios.get(ApiUrl, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setCategories(res?.data);
+    } catch {
+      console.error("Xato yuz berdi", error.response?.data || error.message);
+    }
+  };
 
   useEffect(() => {
-    const getData = async () => {
-      const token = localStorage.getItem("TOKEN");
-      const ApiUrl = "https://realauto.limsa.uz/api/categories";
-
-      try {
-        const { data: res } = await axios.get(ApiUrl, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setCategories(res?.data);
-      } catch {
-        console.error("Xato yuz berdi", error.response?.data || error.message);
-      }
-    };
     getData();
   }, []);
 
@@ -101,23 +103,63 @@ const CategoriesPage = () => {
     const token = localStorage.getItem("TOKEN");
 
     try {
-      await axios.post("https://realauto.limsa.uz/api/categories", formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      callback()
+      {
+        selectedCategory
+          ? await axios.put(
+              `https://realauto.limsa.uz/api/categories/${selectedCategory}`,
+              formData,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            )
+          : await axios.post(
+              `https://realauto.limsa.uz/api/categories`,
+              formData,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+      }
       toast.success("Ma'lumot muvaffaqiyatli jo‘natildi!");
-      
+      getData();
       setAddModal(false);
+      setNameEn("");
+      setNameRu("")
     } catch (error) {
       console.error("Xatolik yuz berdi:", error);
+    } finally {
+      setImagePreview(null);
+      setSelectedCategory(null);
     }
   };
 
   useEffect(() => {
-    submit()
-  } ,[])
+    submit();
+  }, []);
+
+  const editCategory = async (id) => {
+    const token = localStorage.getItem("TOKEN");
+    try {
+      const res = await axios.get(
+        `https://realauto.limsa.uz/api/categories/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(res?.data?.data.name_en);
+      setEditData(res?.data?.data);
+      setNameEn(editData?.name_en);
+      setNameRu(editData?.name_ru);
+      // setPhoto(editData?.image_src);
+      console.log(nameEn, nameRu);
+    } catch {}
+  };
 
   return (
     <>
@@ -149,7 +191,7 @@ const CategoriesPage = () => {
             onClick={() => setAddModal(true)}
             data-modal-target="authentication-modal"
             data-modal-toggle="authentication-modal"
-            className="block flex-1 sm:flex-none text-white cursor-pointer bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className="block flex-1 md:flex-none text-white cursor-pointer bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             type="button"
           >
             Add Category
@@ -194,7 +236,14 @@ const CategoriesPage = () => {
                   <td className="px-6 py-4">{category.name_en}</td>
                   <td className="px-6 py-4">{category.name_ru}</td>
                   <td className="px-6 py-4  flex items-center  gap-[5px]  mt-[10%]">
-                    <button className="cursor-pointer transition-all border-[3px] border-transparent hover:border-blue-400 rounded-[4px]">
+                    <button
+                      onClick={() => {
+                        setSelectedCategory(category?.id),
+                          setAddModal(true),
+                          editCategory(category?.id);
+                      }}
+                      className="cursor-pointer transition-all border-[3px] border-transparent hover:border-blue-400 rounded-[4px]"
+                    >
                       <img src="/edit.svg" alt="edit" />
                     </button>
                     <button
@@ -289,7 +338,9 @@ const CategoriesPage = () => {
 
         {addModal ? (
           <div
-            onClick={() => setAddModal(false)}
+            onClick={() => {
+              setAddModal(false), setSelectedCategory(null);
+            }}
             id="authentication-modal"
             tabindex="-1"
             aria-hidden="true"
@@ -302,10 +353,12 @@ const CategoriesPage = () => {
               >
                 <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
                   <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                    Adding category
+                    {selectedCategory ? "Editing category" : "Adding category"}
                   </h3>
                   <button
-                    onClick={() => setAddModal(false)}
+                    onClick={() => {
+                      setAddModal(false), setSelectedCategory(null);
+                    }}
                     type="button"
                     className="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                     data-modal-hide="authentication-modal"
@@ -344,6 +397,7 @@ const CategoriesPage = () => {
                         id="en-name"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                         placeholder="english name"
+                        value={nameEn}
                         required
                       />
                     </div>
@@ -358,6 +412,7 @@ const CategoriesPage = () => {
                         onChange={(e) => setNameRu(e?.target?.value)}
                         type="text"
                         name="ru-name"
+                        value={nameRu}
                         id="ru-name"
                         placeholder="russian name"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
@@ -371,21 +426,26 @@ const CategoriesPage = () => {
                       >
                         Upload photo
                       </label>
-                      <input
-                        onChange={(e) => {
-                          setPhoto(e?.target?.files?.[0]), handleFileChange(e);
-                        }}
-                        type="file"
-                        name="photo"
-                        id="photo"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                        required
-                      />
-                      {imagePreview && (
+                      {selectedCategory ? (
                         <img
-                          src={imagePreview}
-                          alt="Preview"
-                          className="w-full rounded-[12px] mt-[20px]"
+                          src={`https://realauto.limsa.uz/api/uploads/images/${editData?.image_src}`}
+                          alt=""
+                        />
+                      ) : imagePreview ? (
+                        <>
+                          <img src={imagePreview} alt="imagePreview" />
+                        </>
+                      ) : (
+                        <input
+                          onChange={(e) => {
+                            setPhoto(e?.target?.files?.[0]),
+                              handleFileChange(e);
+                          }}
+                          type="file"
+                          name="photo"
+                          id="photo"
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                          required
                         />
                       )}
                     </div>
@@ -393,7 +453,7 @@ const CategoriesPage = () => {
                       type="submit"
                       className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     >
-                      Add Category
+                      {selectedCategory ? "Save category" : "Add Category"}
                     </button>
                   </form>
                 </div>
