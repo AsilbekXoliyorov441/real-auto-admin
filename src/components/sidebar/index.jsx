@@ -4,7 +4,7 @@ import { BiLogOut, BiSolidCategory } from "react-icons/bi";
 import { SiBrandfolder } from "react-icons/si";
 import { FaCar, FaCity } from "react-icons/fa";
 import { FaMapLocationDot } from "react-icons/fa6";
-import { MdModelTraining } from "react-icons/md";
+import { MdAccountCircle, MdModelTraining } from "react-icons/md";
 
 
 
@@ -17,6 +17,21 @@ const Sidebar = () => {
   console.log(activePage);
 
   const navigate = useNavigate();
+
+
+  const [image, setImage] = useState(null);
+
+  // Rasm yuklash funksiyasi
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const logout = () => {
     localStorage.removeItem("TOKEN");
@@ -74,11 +89,27 @@ const Sidebar = () => {
                     data-dropdown-toggle="dropdown-user"
                   >
                     <span className="sr-only">Open user menu</span>
-                    <img
-                      className="w-8 h-8 rounded-full"
-                      src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                      alt="user photo"
-                    />
+                    <div className="flex w-[40px] h-[40px] justify-center items-center">
+                      <label className="relative cursor-pointer">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={handleImageChange}
+                        />
+                        <div className="w-[40px] h-[40px] rounded-full border-2 border-green-500 overflow-hidden flex items-center justify-center  bg-gray-100">
+                          {image ? (
+                            <img
+                              src={image}
+                              alt="Uploaded"
+                              className="w-full h-[40px] rounded-full object-cover"
+                            />
+                          ) : (
+                            <MdAccountCircle className="text-[48px]" />
+                          )}
+                        </div>
+                      </label>
+                    </div>
                   </button>
                 </div>
 
@@ -156,18 +187,30 @@ const Sidebar = () => {
             <li>
               <a
                 href="categories"
-                className={`flex items-center ${"categories" === activePage ? "bg-gray-300" : ""} p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group`}
+                className={`flex items-center ${
+                  "categories" === activePage ? "bg-gray-300" : ""
+                } p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group`}
               >
-                <BiSolidCategory className={`text-[24px] text-gray-500 ${"categories" === activePage ? "text-gray-900" : ""} group-hover:text-gray-900`} />
+                <BiSolidCategory
+                  className={`text-[24px] text-gray-500 ${
+                    "categories" === activePage ? "text-gray-900" : ""
+                  } group-hover:text-gray-900`}
+                />
                 <span className="ms-3">Categories</span>
               </a>
             </li>
-            <li >
+            <li>
               <a
                 href="brands"
-                className={`flex items-center ${"brands" === activePage ? "bg-gray-300" : ""} p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group`}
+                className={`flex items-center ${
+                  "brands" === activePage ? "bg-gray-300" : ""
+                } p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group`}
               >
-                <SiBrandfolder className={`text-[24px] text-gray-500 ${"brands" === activePage ? "text-gray-900" : ""} group-hover:text-gray-900`} />
+                <SiBrandfolder
+                  className={`text-[24px] text-gray-500 ${
+                    "brands" === activePage ? "text-gray-900" : ""
+                  } group-hover:text-gray-900`}
+                />
 
                 <span className="flex-1 ms-3 whitespace-nowrap">Brands</span>
                 <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
@@ -178,9 +221,15 @@ const Sidebar = () => {
             <li>
               <a
                 href="cities"
-                className={`flex items-center ${"cities" === activePage ? "bg-gray-300" : ""} p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group`}
+                className={`flex items-center ${
+                  "cities" === activePage ? "bg-gray-300" : ""
+                } p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group`}
               >
-                <FaCity className={`text-[24px] text-gray-500 ${"cities" === activePage ? "text-gray-900" : ""} group-hover:text-gray-900`} />
+                <FaCity
+                  className={`text-[24px] text-gray-500 ${
+                    "cities" === activePage ? "text-gray-900" : ""
+                  } group-hover:text-gray-900`}
+                />
 
                 <span className="flex-1 ms-3 whitespace-nowrap">Cities</span>
                 <span className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
@@ -191,9 +240,15 @@ const Sidebar = () => {
             <li>
               <a
                 href="locations"
-                className={`flex items-center ${"locations" === activePage ? "bg-gray-300" : ""} p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group`}
+                className={`flex items-center ${
+                  "locations" === activePage ? "bg-gray-300" : ""
+                } p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group`}
               >
-                <FaMapLocationDot className={`text-[24px] text-gray-500 ${"locations" === activePage ? "text-gray-900" : ""} group-hover:text-gray-900`} />
+                <FaMapLocationDot
+                  className={`text-[24px] text-gray-500 ${
+                    "locations" === activePage ? "text-gray-900" : ""
+                  } group-hover:text-gray-900`}
+                />
 
                 <span className="flex-1 ms-3 whitespace-nowrap">Locations</span>
               </a>
@@ -201,9 +256,15 @@ const Sidebar = () => {
             <li>
               <a
                 href="cars"
-                className={`flex items-center ${"cars" === activePage ? "bg-gray-300" : ""} p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group`}
+                className={`flex items-center ${
+                  "cars" === activePage ? "bg-gray-300" : ""
+                } p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group`}
               >
-                <FaCar className={`text-[24px] text-gray-500 ${"cars" === activePage ? "text-gray-900" : ""} group-hover:text-gray-900`} />
+                <FaCar
+                  className={`text-[24px] text-gray-500 ${
+                    "cars" === activePage ? "text-gray-900" : ""
+                  } group-hover:text-gray-900`}
+                />
 
                 <span className="flex-1 ms-3 whitespace-nowrap">Cars</span>
               </a>
@@ -211,9 +272,15 @@ const Sidebar = () => {
             <li>
               <a
                 href="models"
-                className={`flex items-center ${"models" === activePage ? "bg-gray-300" : ""} p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group`}
+                className={`flex items-center ${
+                  "models" === activePage ? "bg-gray-300" : ""
+                } p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group`}
               >
-                <MdModelTraining className={`text-[24px] text-gray-500 ${"models" === activePage ? "text-gray-900" : ""} group-hover:text-gray-900`} />
+                <MdModelTraining
+                  className={`text-[24px] text-gray-500 ${
+                    "models" === activePage ? "text-gray-900" : ""
+                  } group-hover:text-gray-900`}
+                />
 
                 <span className="flex-1 ms-3 whitespace-nowrap">Models</span>
               </a>
@@ -223,7 +290,9 @@ const Sidebar = () => {
                 onClick={logout}
                 className="flex cursor-pointer  p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group w-full"
               >
-                <BiLogOut className={`text-[24px] text-gray-500  group-hover:text-gray-900`} />
+                <BiLogOut
+                  className={`text-[24px] text-gray-500  group-hover:text-gray-900`}
+                />
 
                 <span className=" ms-3 whitespace-nowrap">Logout</span>
               </button>

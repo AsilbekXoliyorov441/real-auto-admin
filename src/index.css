@@ -1,1 +1,37 @@
 @import "tailwindcss";
+
+.car .swiper-button-prev{
+  background-color: #ffffff7a;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50px;
+  left: 2px;
+  top: 50px;
+}
+
+.car .swiper-button-prev::after{
+  font-size: 14px;
+  color: red;
+  font-weight: bold;
+}
+
+.car .swiper-button-next{
+  background-color: #ffffffa8;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50px;
+  right: 2px;
+  top: 50px;
+}
+
+.car .swiper-button-next::after{
+  font-size: 14px;
+  color: red;
+  font-weight: bold;
+}
