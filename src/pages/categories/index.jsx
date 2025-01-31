@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import { IoClose } from "react-icons/io5";
+
 
 const CategoriesPage = () => {
   const [categories, setCategories] = useState(null);
@@ -14,8 +16,9 @@ const CategoriesPage = () => {
   const formData = new FormData();
   const [refresh, setRefresh] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [editData, setEditData] = useState(null);
+  const [closeImgEditModal , setCloseImgEditModal] = useState(true);
 
   formData.append("name_en", nameEn);
   formData.append("name_ru", nameRu);
@@ -127,8 +130,9 @@ const CategoriesPage = () => {
       toast.success("Ma'lumot muvaffaqiyatli jo‘natildi!");
       getData();
       setAddModal(false);
+      setCloseImgEditModal(true)
       setNameEn("");
-      setNameRu("")
+      setNameRu("");
     } catch (error) {
       console.error("Xatolik yuz berdi:", error);
     } finally {
@@ -141,24 +145,29 @@ const CategoriesPage = () => {
     submit();
   }, []);
 
-  const editCategory = async (id) => {
-    const token = localStorage.getItem("TOKEN");
-    try {
-      const res = await axios.get(
-        `https://realauto.limsa.uz/api/categories/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log(res?.data?.data.name_en);
-      setEditData(res?.data?.data);
-      setNameEn(editData?.name_en);
-      setNameRu(editData?.name_ru);
-      // setPhoto(editData?.image_src);
-      console.log(nameEn, nameRu);
-    } catch {}
+  const editCategory = async (category) => {
+    setEditData(category);
+    setSelectedCategory(category?.id);
+    setNameEn(category?.name_en);
+    setNameRu(category?.name_ru);
+    closeImgEditModal(true)
+
+    // try {
+    //   const res = await axios.get(
+    //     `https://realauto.limsa.uz/api/categories/${id}`,
+    //     {
+    //       headers: {
+    //         Authorization: `Bearer ${token}`,
+    //       },
+    //     }
+    //   );
+    //   console.log(res?.data?.data.name_en);
+    //   setEditData(res?.data?.data);
+    //   setNameEn(editData?.name_en);
+    //   setNameRu(editData?.name_ru);
+    //   // setPhoto(editData?.image_src);
+    //   console.log(nameEn, nameRu);
+    // } catch {}
   };
 
   return (
@@ -240,7 +249,7 @@ const CategoriesPage = () => {
                       onClick={() => {
                         setSelectedCategory(category?.id),
                           setAddModal(true),
-                          editCategory(category?.id);
+                          editCategory(category);
                       }}
                       className="cursor-pointer transition-all border-[3px] border-transparent hover:border-blue-400 rounded-[4px]"
                     >
@@ -339,7 +348,12 @@ const CategoriesPage = () => {
         {addModal ? (
           <div
             onClick={() => {
-              setAddModal(false), setSelectedCategory(null);
+              setAddModal(false),
+                setSelectedCategory(null),
+                setNameEn(""),
+                setNameRu(""),
+                setPhoto("");
+              setCloseImgEditModal(true);
             }}
             id="authentication-modal"
             tabindex="-1"
@@ -357,7 +371,12 @@ const CategoriesPage = () => {
                   </h3>
                   <button
                     onClick={() => {
-                      setAddModal(false), setSelectedCategory(null);
+                      setAddModal(false),
+                        setSelectedCategory(null),
+                        setNameEn(""),
+                        setNameRu(""),
+                        setPhoto("");
+                      setCloseImgEditModal(true);
                     }}
                     type="button"
                     className="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -419,21 +438,49 @@ const CategoriesPage = () => {
                         required
                       />
                     </div>
-                    <div>
+                    <div className="relative">
                       <label
-                        for="photo"
                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                       >
                         Upload photo
                       </label>
-                      {selectedCategory ? (
-                        <img
-                          src={`https://realauto.limsa.uz/api/uploads/images/${editData?.image_src}`}
-                          alt=""
-                        />
-                      ) : imagePreview ? (
+                      {imagePreview ? (
                         <>
+                          <button
+                            className={imagePreview ? "absolute right-[10px] top-[30px] cursor-pointer rounded-[4px] bg-red-700" : "hidden"}
+                            onClick={() => {
+                              setCloseImgEditModal(false),
+                                setImagePreview(null);
+                            }}
+                          >
+                            <IoClose className="text-[32px] text-white" />
+                          </button>
                           <img src={imagePreview} alt="imagePreview" />
+                        </>
+                      ) : selectedCategory ? (
+                        <>
+                          <button
+                            className={closeImgEditModal ? "absolute right-[10px] top-[30px] cursor-pointer rounded-[4px] bg-red-700" : "hidden"}
+                            onClick={() => setCloseImgEditModal(false)}
+                          >
+                            <IoClose className="text-[32px] text-white" />
+                          </button>
+                          <img
+                            className={closeImgEditModal ? "" : "hidden"}
+                            src={`https://realauto.limsa.uz/api/uploads/images/${editData?.image_src}`}
+                            alt=""
+                          />
+                          <input
+                            onChange={(e) => {
+                              setPhoto(e?.target?.files?.[0]),
+                                handleFileChange(e);
+                            }}
+                            type="file"
+                            name="photo"
+                            id="photo"
+                            className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white ${closeImgEditModal ? "hidden" : ""}`}
+                            required
+                          />
                         </>
                       ) : (
                         <input
