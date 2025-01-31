@@ -19,10 +19,14 @@ const CategoriesPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [editData, setEditData] = useState(null);
   const [closeImgEditModal , setCloseImgEditModal] = useState(true);
+  const [currentPage , setCurrentPage] = useState(1);
 
   formData.append("name_en", nameEn);
   formData.append("name_ru", nameRu);
   formData.append("images", photo);
+
+  
+
 
   const callback = () => {
     setRefresh(!refresh);
@@ -96,6 +100,7 @@ const CategoriesPage = () => {
       callback();
       setWarnModal(false);
       toast.success("Deleted this category");
+      getData();
     } catch {
       toast.error("Error");
     }
@@ -170,6 +175,19 @@ const CategoriesPage = () => {
     // } catch {}
   };
 
+  /**Pagination */
+    const itemsPerPage = 5;
+
+    const totalPage = Math.ceil(sorted?.length / itemsPerPage);
+
+    let currentCategories = sorted?.slice(
+      (currentPage - 1) * itemsPerPage,
+      currentPage * itemsPerPage
+    );
+
+
+
+
   return (
     <>
       <div>
@@ -225,7 +243,7 @@ const CategoriesPage = () => {
               </tr>
             </thead>
             <tbody>
-              {sorted?.map((category, index) => (
+              {currentCategories?.map((category, index) => (
                 <tr
                   key={index}
                   className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200"
@@ -345,6 +363,32 @@ const CategoriesPage = () => {
           </table>
         </div>
 
+        <div>
+          <div className="flex justify-center mt-4 space-x-2">
+            <button
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 disabled:opacity-50"
+            >
+              Previous
+            </button>
+
+            <span className="px-4 py-2 border rounded">
+              {currentPage} / {totalPage}
+            </span>
+
+            <button
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(prev + 1, totalPage))
+              }
+              disabled={currentPage === totalPage}
+              className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
+        </div>
+
         {addModal ? (
           <div
             onClick={() => {
@@ -439,15 +483,17 @@ const CategoriesPage = () => {
                       />
                     </div>
                     <div className="relative">
-                      <label
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >
+                      <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Upload photo
                       </label>
                       {imagePreview ? (
                         <>
                           <button
-                            className={imagePreview ? "absolute right-[10px] top-[30px] cursor-pointer rounded-[4px] bg-red-700" : "hidden"}
+                            className={
+                              imagePreview
+                                ? "absolute right-[10px] top-[30px] cursor-pointer rounded-[4px] bg-red-700"
+                                : "hidden"
+                            }
                             onClick={() => {
                               setCloseImgEditModal(false),
                                 setImagePreview(null);
@@ -460,7 +506,11 @@ const CategoriesPage = () => {
                       ) : selectedCategory ? (
                         <>
                           <button
-                            className={closeImgEditModal ? "absolute right-[10px] top-[30px] cursor-pointer rounded-[4px] bg-red-700" : "hidden"}
+                            className={
+                              closeImgEditModal
+                                ? "absolute right-[10px] top-[30px] cursor-pointer rounded-[4px] bg-red-700"
+                                : "hidden"
+                            }
                             onClick={() => setCloseImgEditModal(false)}
                           >
                             <IoClose className="text-[32px] text-white" />
@@ -478,7 +528,9 @@ const CategoriesPage = () => {
                             type="file"
                             name="photo"
                             id="photo"
-                            className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white ${closeImgEditModal ? "hidden" : ""}`}
+                            className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white ${
+                              closeImgEditModal ? "hidden" : ""
+                            }`}
                             required
                           />
                         </>

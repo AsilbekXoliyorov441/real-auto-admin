@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { data, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
 const LoginPage = () => {
   const [number, setNumber] = useState();
   const [password, setPassword] = useState();
 
-
   const navigate = useNavigate();
-
 
   const login = async (e) => {
     e.preventDefault();
@@ -28,19 +26,26 @@ const LoginPage = () => {
         }
       );
 
+        console.log(data);
+
+
       localStorage.setItem("TOKEN", data.data.tokens.accessToken.token);
       localStorage.setItem("Message", data.success);
 
-      if (data.data.tokens.accessToken.token && data.success) {
-        toast.success("Success");
-        navigate("/categories");
-      } else {
-        navigate("login");
-      }
+      toast.success("Success");
+      navigate("/categories");
     } catch (error) {
       toast.error("Error");
+      navigate("/login");
     }
   };
+
+  login();
+
+
+  useEffect(() => {
+    login();
+  });
 
   return (
     <div className="flex flex-col items-center justify-center h-[100vh] px-[20px]">
@@ -59,6 +64,7 @@ const LoginPage = () => {
         </label>
         <input
           id="username"
+          required
           className="outline-none border mb-[15px] bg-white border-white rounded-[2px] p-[5px] text-[18px] w-full text-blue-950"
           onChange={(e) => setNumber(e.target.value)}
           type="number"
@@ -72,6 +78,7 @@ const LoginPage = () => {
         </label>
         <input
           id="password"
+          required
           className="outline-none mb-[40px] border bg-white border-white rounded-[2px] p-[5px]  text-blue-950 text-[18px] w-full"
           onChange={(e) => setPassword(e.target.value)}
           type="password"
