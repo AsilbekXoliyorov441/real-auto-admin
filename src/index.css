@@ -35,3 +35,8 @@
   color: red;
   font-weight: bold;
 }
+
+.form-bg{
+  backdrop-filter: blur(48px);
+  box-shadow: 5px 5px 10px white;
+}

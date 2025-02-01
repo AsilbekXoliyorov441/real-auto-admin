@@ -49,14 +49,14 @@ const LoginPage = () => {
 
   return (
     <div className="flex flex-col items-center justify-center h-[100vh] px-[20px]">
-      <video className="fixed w-full" autoPlay muted loop playsInline>
+      <video className="fixed w-[100%] object-cover h-[100%]" autoPlay muted loop playsInline>
         <source
           src="/vedios/Ultimate Supercar Showroom in Dubai - Dourado Luxury Cars!.mp4"
           type="video/mp4"
         />
       </video>
       <form
-        className="flex relative z-[10px] flex-col  p-[30px] bg-blue-400 rounded-[8px] max-w-[468px] w-full"
+        className="flex relative z-[10px] flex-col  p-[30px] form-bg rounded-[8px] max-w-[468px] w-full"
         onSubmit={login}
       >
         <h1 className="text-center text-[48px] font-bold mb-[30px] text-white">
