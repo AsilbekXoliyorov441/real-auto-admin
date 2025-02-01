@@ -48,8 +48,8 @@ const LoginPage = () => {
   });
 
   return (
-    <div className="flex flex-col items-center justify-center h-[100vh] px-[20px]">
-      <video className="fixed w-[100%] object-cover h-[100%]" autoPlay muted loop playsInline>
+    <div className="flex flex-col items-center justify-center h-[100vh]">
+      <video className="fixed h-[100vh] w-[100vw]  object-cover" autoPlay muted loop playsInline>
         <source
           src="/vedios/Ultimate Supercar Showroom in Dubai - Dourado Luxury Cars!.mp4"
           type="video/mp4"
