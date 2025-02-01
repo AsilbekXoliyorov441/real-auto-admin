@@ -49,54 +49,62 @@ const LoginPage = () => {
 
   return (
     <div className="flex flex-col items-center justify-center h-[100vh]">
-      <video className="fixed px-[20px] h-[100vh] w-[100vw]  object-cover" autoPlay muted loop playsInline>
+      <video
+        className="fixed h-[100vh] w-[100vw]  object-cover"
+        autoPlay
+        muted
+        loop
+        playsInline
+      >
         <source
           src="/vedios/Ultimate Supercar Showroom in Dubai - Dourado Luxury Cars!.mp4"
           type="video/mp4"
         />
       </video>
-      <form
-        className="flex relative z-[10px] flex-col  p-[30px] form-bg rounded-[8px] max-w-[468px] w-full"
-        onSubmit={login}
-      >
-        <h1 className="text-center text-[48px] font-bold mb-[30px] text-white">
-          Login
-        </h1>
-        <label
-          className="mb-[2px] cursor-pointer text-white text-[18px] font-bold"
-          htmlFor="username"
+      <div className="px-[20px] max-w-[508px] w-full">
+        <form
+          className="flex relative z-[10px] flex-col  p-[30px] form-bg rounded-[8px] max-w-[468px] w-full"
+          onSubmit={login}
         >
-          Username
-        </label>
-        <input
-          id="username"
-          required
-          className="outline-none border mb-[15px] bg-white border-white rounded-[2px] p-[5px] text-[18px] w-full text-blue-950"
-          onChange={(e) => setNumber(e.target.value)}
-          type="number"
-          placeholder="Raqam kiriting"
-        />
-        <label
-          className="mb-[2px] cursor-pointer text-white text-[18px] font-bold"
-          htmlFor="password"
-        >
-          Password
-        </label>
-        <input
-          id="password"
-          required
-          className="outline-none mb-[40px] border bg-white border-white rounded-[2px] p-[5px]  text-blue-950 text-[18px] w-full"
-          onChange={(e) => setPassword(e.target.value)}
-          type="password"
-          placeholder="Password kiriting"
-        />
-        <button
-          className="outline-none border cursor-pointer bg-orange-600 border-white rounded-[2px] p-[5px] text-white text-[18px] w-full mb-[30px]"
-          type="submit"
-        >
-          Login
-        </button>
-      </form>
+          <h1 className="text-center text-[48px] font-bold mb-[30px] text-white">
+            Login
+          </h1>
+          <label
+            className="mb-[2px] cursor-pointer text-white text-[18px] font-bold"
+            htmlFor="username"
+          >
+            Username
+          </label>
+          <input
+            id="username"
+            required
+            className="outline-none border mb-[15px] bg-white border-white rounded-[2px] p-[5px] text-[18px] w-full text-blue-950"
+            onChange={(e) => setNumber(e.target.value)}
+            type="number"
+            placeholder="Raqam kiriting"
+          />
+          <label
+            className="mb-[2px] cursor-pointer text-white text-[18px] font-bold"
+            htmlFor="password"
+          >
+            Password
+          </label>
+          <input
+            id="password"
+            required
+            className="outline-none mb-[40px] border bg-white border-white rounded-[2px] p-[5px]  text-blue-950 text-[18px] w-full"
+            onChange={(e) => setPassword(e.target.value)}
+            type="password"
+            placeholder="Password kiriting"
+          />
+          <button
+            className="outline-none border cursor-pointer bg-orange-600 border-white rounded-[2px] p-[5px] text-white text-[18px] w-full mb-[30px]"
+            type="submit"
+          >
+            Login
+          </button>
+        </form>
+      </div>
       <ToastContainer />
     </div>
   );
