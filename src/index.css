@@ -40,3 +40,7 @@
   backdrop-filter: blur(48px);
   box-shadow: 5px 5px 10px white;
 }
+
+.modal{
+  background-color: rgba(128, 128, 128, 0.327);
+}

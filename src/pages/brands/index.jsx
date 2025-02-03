@@ -1,27 +1,133 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { IoClose } from "react-icons/io5";
+import { ToastContainer, toast } from "react-toastify";
 
 const BrandsPage = () => {
-  const [brandData , setBrandData] = useState(null);
+  const [brandData, setBrandData] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [photo, setPhoto] = useState("");
+  const [title, setTitle] = useState("");
+  const [selectedBrand, setSelectedBrand] = useState(null);
+  const [editData, setEditData] = useState(null);
+  const [closeButton, setCloseButton] = useState(true);
 
-  const getBrands = async() => {
-    const token = localStorage.getItem("TOKEN");
 
-    try{
-      const res = await axios.get("https://realauto.limsa.uz/api/brands");
-      setBrandData(res?.data?.data);
-    }catch{
-      console.error(res.error);
-    }
+
+  console.log(selectedBrand);
+  console.log(photo);
+
+  const formData = new FormData();
+  formData.append("title", title);
+  formData.append("image_src", photo);
+
+
+  const closeImageEditModal = () => {
+    setPhoto("")
   }
 
-  useEffect(() => {
+  const handleFileChange = (e) => {
+    const file = e?.target?.files[0];
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        setImagePreview(reader?.result);
+      };
+
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const editBrands = (brand) => {
+    setSelectedBrand(brand?.id);
+    setTitle(brand?.title);
+    setEditData(brand);
+    setPhoto(brand?.image_src);
+    setCloseButton(true);
+  };
+
+  const submit = async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem("TOKEN");
+    try {
+      {
+        selectedBrand
+          ? await axios.put(
+              `https://realauto.limsa.uz/api/brands/${selectedBrand}`,
+              formData,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            )
+          : await axios.post(`https://realauto.limsa.uz/api/brands`, formData, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+      }
+      {selectedBrand ?       toast.success("Brand muvaffaqiyatli saqlandi") :   toast.success("Brand muvaffaqiyatli qo'shildi")}
+      setOpenModal(false);
+      setSelectedBrand(null);
+      setTitle("");
+      setImagePreview(null);
       getBrands();
-  } , [])
+    } catch {
+      toast.error("Error");
+    }
+  };
+
+  const deleteBrand = async (brand) => {
+    const token = localStorage.getItem("TOKEN");
+
+    console.log(brand?.id);
+
+    try {
+      await axios.delete(`https://realauto.limsa.uz/api/brands/${brand?.id}` , {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      toast.success(`Deleted ${brand?.title}`);
+    } catch {
+      toast.error("Error , please try again later");
+    }
+  };
+
+  console.log(imagePreview);
+
+  const getBrands = async () => {
+    try {
+      const res = await axios.get("https://realauto.limsa.uz/api/brands");
+      setBrandData(res?.data?.data);
+    } catch {
+      axios.error(res.error);
+    }
+  };
+
+  useEffect(() => {
+    getBrands();
+  }, []);
   console.log(brandData);
   return (
-    <>
+    <div>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <div className="flex justify-between px-[10px]">
+          <button className="text-white cursor-pointer mt-[20px] mb-[20px] bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2">
+            All Brands {brandData?.length}
+          </button>
+          <button
+            onClick={() => setOpenModal(true)}
+            type="button"
+            className="text-white cursor-pointer mt-[20px] mb-[20px] bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2"
+          >
+            Add Brand
+          </button>
+        </div>
+
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 w-full uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr className="w-full ">
@@ -54,12 +160,16 @@ const BrandsPage = () => {
                 <td className="px-6 py-4">{brand?.title}</td>
                 <td className="flex flex-col mt-[30px] gap-[10px]">
                   <button
+                    onClick={() => {
+                      editBrands(brand), setOpenModal(true);
+                    }}
                     href="#"
                     className="font-medium cursor-pointer text-blue-600 dark:text-blue-500 hover:underline"
                   >
                     Edit
                   </button>
                   <button
+                    onClick={() => deleteBrand(brand)}
                     href="#"
                     className="font-medium cursor-pointer pl-[20px] text-red-600 dark:text-red-500 hover:underline"
                   >
@@ -71,7 +181,98 @@ const BrandsPage = () => {
           </tbody>
         </table>
       </div>
-    </>
+
+      {openModal ? (
+        <div
+          onClick={(e) => {
+            setOpenModal(false),
+              setSelectedBrand(null),
+              setTitle(""),
+              setImagePreview(null);
+          }}
+          className="fixed modal z-[100] top-0 left-0 h-[100%] mb-[30px] w-[100%] flex items-center justify-center px-[20px]"
+        >
+          <form
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            onSubmit={submit}
+            className="max-w-[600px] w-full mx-auto bg-gray-400 p-[50px] rounded-[8px]"
+          >
+            <div className="mb-5">
+              <label
+                for="title"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Brand Name
+              </label>
+              <input
+                onChange={(e) => setTitle(e?.target?.value)}
+                value={title}
+                type="text"
+                id="title"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="name@flowbite.com"
+                required
+              />
+            </div>
+            <div className="relative">
+              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                Upload photo
+              </label>
+              {selectedBrand ? (
+                <>
+                  <button
+                  type="button"
+                    className={
+                        "absolute right-[10px] top-[30px] cursor-pointer rounded-[4px] bg-red-700"
+                    }
+                    onClick={() => closeImageEditModal()}
+                  >
+                    <IoClose className="text-[32px] text-white" />
+                  </button>
+                  <img
+                    className={closeImageEditModal}
+                    src={`https://realauto.limsa.uz/api/uploads/images/${editData?.image_src}`}
+                    alt=""
+                  />
+                </>
+              ) : (
+                ""
+              )}
+              {imagePreview ? (
+                <img
+                  className="w-full h-[250px] object-contain flex bg-gray-900 mb-[20px] rounded-[6px]"
+                  src={imagePreview}
+                  alt="da"
+                />
+              ) : (
+                ""
+              )}
+              <input
+                onChange={(e) => {
+                  setPhoto(e?.target?.files?.[0]), handleFileChange(e);
+                }}
+                type="file"
+                accept="image/*"
+                name="photo"
+                id="photo"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+              />
+            </div>
+            <button
+              type="submit"
+              className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full  px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              {selectedBrand ? "Save Changes" : "Add Brand"}
+            </button>
+          </form>
+        </div>
+      ) : (
+        ""
+      )}
+      <ToastContainer />
+    </div>
   );
 };
 
