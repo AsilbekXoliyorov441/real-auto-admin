@@ -192,6 +192,7 @@ const CategoriesPage = () => {
 
 
 
+
   return (
     <>
       {loading ? (
