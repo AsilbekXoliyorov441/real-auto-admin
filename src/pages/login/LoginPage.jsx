@@ -50,7 +50,7 @@ const LoginPage = () => {
   return (
     <div className="flex flex-col items-center justify-center h-[100vh]">
       <video
-        className="fixed h-[100vh] w-[100vw]  object-cover"
+        className="fixed h-[100vh] w-[100vw]  object-cover object-center"
         autoPlay
         muted
         loop
