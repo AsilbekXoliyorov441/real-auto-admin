@@ -1,0 +1,255 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+li {
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+button {
+    cursor: pointer;
+}
+
+.container {
+    max-width: 1173px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+header{
+    position: fixed;
+    backdrop-filter: blur(4px);
+    width: 100%;
+    background-color: transparent;
+}
+
+.header-d {
+    max-width: 1173px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 58px;
+}
+
+.ul-header {
+    display: flex;
+    gap: 50px;
+}
+
+.ul-header li a {
+    color: #A1B5BB;
+}
+
+.ul-header li:hover a {
+    text-decoration: underline;
+}
+
+.p-img {
+    display: flex;
+    color: white;
+}
+
+.con {
+    background-color: #145E76;
+    color: white;
+    width: 140px;
+    height: 58px;
+    border-radius: 25px;
+    border: #145E76;
+}
+
+#section-1 {
+    background-image: url("../img/Rectangle-3.svg");
+    background-color: #043E51;
+    height: 978px;
+}
+
+.contents {
+    display: flex;
+}
+
+.musa {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: solid #094556;
+    background-color: #094556;
+    border-radius: 30px;
+    width: 195px;
+    height: 65px;
+}
+
+.content {
+    padding-top: 150px;
+}
+
+.brands {
+    max-width: 537px;
+    width: 100%;
+    font-size: 64px;
+    color: white;
+    padding-top: 40px;
+}
+
+.visual {
+    max-width: 511px;
+    width: 100%;
+    color: #849499;
+    font-size: 18px;
+    padding-top: 30px;
+}
+
+.hire {
+    background-color: #FFA63A;
+    border-radius: 25px;
+    width: 137px;
+    height: 61px;
+}
+
+.work {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.man {
+    background-image: url("../img/man.png");
+    width: 599px;
+    height: 730px
+}
+
+.stat {
+    height: 323px;
+    margin-top: -150px;
+    padding: 64px 54px;
+    border-radius: 30px;
+    box-shadow: 0px 73px 80px 0px rgba(0, 0, 0, 0.06);
+    background: rgb(255, 255, 255);
+}
+
+.iil {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 79px;
+    max-width: 1173px;
+    width: 100%;
+}
+
+.title {
+    text-align: center;
+}
+
+.iil h1 {
+    font-size: 48px;
+    text-align: center;
+}
+
+.iil {
+    font-size: 18px;
+}
+
+.ser {
+    margin-top: 200px;
+    text-align: center;
+}
+
+.ser a {
+    color: #265A6A;
+}
+
+.ser a:hover {
+    text-decoration: underline;
+}
+
+.ser h1 {
+    margin-top: 30px;
+}
+
+.pasti{
+    display: flex;
+    justify-content: space-between;
+}
+
+.card{
+    width: 273px;
+    height: 251px;
+    box-shadow: 0px 41.78px 33.42px 0px rgba(0, 0, 0, 0.05);
+    background: rgb(255, 255, 255);
+    padding: 30px 29px;
+}
+
+.svg{
+    width: 50px;
+    height: 50px;
+    border-radius: 100px;
+    background-color: #F5FBFC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card p{
+    padding-top: 10px;
+    font-size: 16px;
+    display: inline-block;
+    color: #B2BBBD;
+    cursor: pointer;
+}
+
+.card h1{
+    font-size: 24px;
+    padding-top: 25px;
+    cursor: pointer;
+}
+
+.card-div:hover .card{
+    background-color: #08546C;
+    transition: 1s;
+}
+
+.card-div:hover .svg{
+    background-color: #FFA800;
+    transition: 2s;
+}
+
+.card-div:hover h1{
+    color: #fff;
+    transition: 1s;
+}
+
+.infos h1{
+    padding-top: 200px;
+    text-align: center;
+}
+
+.infos{
+    padding-bottom: 60px;
+    max-width: 569px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.infos p{
+    height: 58px;
+}
+
+.tepa-chap-img{
+    max-width: 515px;
+    height: 386px;
+}
+
+.tepa-chap-img img{
+    width: 100%;
+}
+
+.tepa-chap{
+
+}

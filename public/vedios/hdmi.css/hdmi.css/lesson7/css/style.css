@@ -1,0 +1,204 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container{
+    width: 1120px;
+    margin: 0px auto;
+}
+
+.top{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+}
+
+.good{
+    display: flex;
+}
+
+.yan{
+    display: flex;
+    justify-content: space-between;
+    padding-top: 176px;
+}
+
+.yan-1{
+    background-color: #1391CE;
+    width: 352px;
+    height: 189px;
+    border-radius: 2%;
+    color: #ffff;
+    padding: 69px 34px;
+}
+
+.yan-2{
+    background-color: #1391CE;
+    width: 352px;
+    height: 189px;
+    border-radius: 2%;
+    color: #ffff;
+    padding: 69px 46px;
+}
+
+.yan-3{
+    background-color: #1391CE;
+    width: 352px;
+    height: 189px;
+    border-radius: 2%;
+    color: #ffff;
+    padding: 69px 46px;
+}
+
+a{
+    text-decoration: none;
+}
+
+.nav{
+    display: flex;
+    justify-content: space-between;
+}
+
+#section-1{
+    background-color: #1391CE;
+    padding-top: 91px;
+}
+
+ul{
+    display: flex;
+    justify-content: space-between;
+    gap: 32px;
+    list-style-type: none;
+}
+
+.b-1{
+    width: 116px;
+    height: 37px;
+    border-radius: 6cm;
+}
+
+#header{
+    background-color: #1391CE;
+}
+
+.piko{
+    font-size: 92px;
+    color: #25468A;
+    margin-bottom: 8px;
+}
+
+.hero h3{
+    font-size: 32px;
+    color: #25468A;
+    margin-bottom: 38px;
+}
+
+.hero p{
+    margin-bottom: 24px;
+}
+
+.free{
+    width: 264px;
+    height: 51px;
+    background-color: #F7BA0E;
+    border-radius: 6cm;
+}
+
+.just{
+    text-align: center;
+    padding-top: 63px;
+    padding-left: 366px;
+    padding-right: 367px;
+    padding-bottom: 96px;
+}
+
+.just span{
+    display: inline-block;
+    width: 40%;
+    height: 8px;
+    background-color: #F7BA0E;
+}
+
+.just h1{
+    color: #1391CE;
+}
+
+.air{
+    display: flex;
+    justify-content: space-between;
+    gap: 112px;
+}
+
+.use{
+    margin-bottom: 16px;
+    color: #25468A;
+}
+
+.device{
+    margin-bottom: 32px;
+    color: #1391CE;
+}
+
+#section-2{
+    background-color: #E9F5FF;
+}
+
+#section-3{
+    background-color: #E9F5FF;
+}
+
+.git{
+    display: flex;
+    justify-content: space-between;
+    gap: 96px;
+}
+
+.miso-p{
+    padding-right: 129px;
+}
+
+.bit{
+    margin-top: 24px;
+    margin-bottom: 16px;
+    color: #1391CE;
+}
+
+.biyo{
+    display: flex;
+    justify-content: space-between;
+    gap: 112px;
+}
+
+.kuy{
+    display: inline-block;
+    width: 100%;
+    height: 1px;
+    background-color: #fff;
+    margin-top: 32px;
+    margin-bottom: 21px;
+}
+
+footer{
+    background-color: #1391CE;
+    height: 144px;
+}
+
+.Copyright-2020{
+    display: flex;
+    justify-content: space-between;
+}
+
+.the{
+    color: #fff;
+}
+
+.talk{
+    color: #fff;
+}

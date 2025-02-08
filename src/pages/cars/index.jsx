@@ -13,70 +13,86 @@ import { ToastContainer, toast } from "react-toastify";
 const CarsPage = () => {
   const [car, setCar] = useState(null);
   const [changeModal, setChangeModal] = useState(false);
-
-  const [color, setColor] = useState("");
-  const [year, setYear] = useState(null);
-  const [seconds, setSeconds] = useState(null);
-  const [maxSpeed, setMaxSpeed] = useState(null);
-  const [maxPeople, setMaxPeople] = useState(null);
-  const [transmission, setTransmission] = useState("");
-  const [motor, setMotor] = useState("");
-  const [driveSide, setDriveSide] = useState("");
-  const [petrol, setPetrol] = useState("");
-  const [limitPerday, setLimitPerday] = useState(null);
-  const [deposit, setDeposit] = useState(null);
-  const [premiumProtection, setPremiumProtection] = useState(null);
-  const [priceInAED, setPriceInAED] = useState(null);
-  const [priceInUSD, setPriceInUSD] = useState(null);
-  const [priceInAEDSale, setPriceInAEDSale] = useState(null);
-  const [priceInUSDSale, setPriceInUSDSale] = useState(null);
-  const [inclusive, setInclusive] = useState(false);
-  const [cover, setCover] = useState("");
-  const [image1, setImage1] = useState("");
-  const [image2, setImage2] = useState("");
-  const [brandTitle, setBrandTitle] = useState("");
-  const [modelTitle, setModelTitle] = useState("");
-  const [cityTitle, setCityTitle] = useState("");
-  const [categoryTitle, setCategoryTitle] = useState("");
-  const [locationTitle, setLocationTitle] = useState("");
-
   const [brandData, setBrandData] = useState(null);
   const [modelData, setModelData] = useState(null);
   const [cityData, setCityData] = useState(null);
   const [categoryData, setCategoryData] = useState(null);
   const [locationData, setLocationData] = useState(null);
+  const [selectedCar, setSelectedCar] = useState(null);
+  const [editCarData, setEditCarData] = useState(null)
 
-  console.log(brandData , modelData , cityData , categoryData , locationData);
+  // const [color, setColor] = useState("");
+  // const [year, setYear] = useState(null);
+  // const [seconds, setSeconds] = useState(null);
+  // const [maxSpeed, setMaxSpeed] = useState(null);
+  // const [maxPeople, setMaxPeople] = useState(null);
+  // const [transmission, setTransmission] = useState("");
+  // const [motor, setMotor] = useState("");
+  // const [driveSide, setDriveSide] = useState("");
+  // const [petrol, setPetrol] = useState("");
+  // const [limitPerday, setLimitPerday] = useState(null);
+  // const [deposit, setDeposit] = useState(null);
+  // const [premiumProtection, setPremiumProtection] = useState(null);
+  // const [priceInAED, setPriceInAED] = useState(null);
+  // const [priceInUSD, setPriceInUSD] = useState(null);
+  // const [priceInAEDSale, setPriceInAEDSale] = useState(null);
+  // const [priceInUSDSale, setPriceInUSDSale] = useState(null);
+  // const [inclusive, setInclusive] = useState(false);
+  // const [cover, setCover] = useState("");
+  // const [image1, setImage1] = useState("");
+  // const [image2, setImage2] = useState("");
+  // const [brandTitle, setBrandTitle] = useState("");
+  // const [modelTitle, setModelTitle] = useState("");
+  // const [cityTitle, setCityTitle] = useState("");
+  // const [categoryTitle, setCategoryTitle] = useState("");
+  // const [locationTitle, setLocationTitle] = useState("");
+
+  console.log(brandData, modelData, cityData, categoryData, locationData);
 
   const formData = new FormData();
 
   console.log(formData);
 
-  formData.append("color", color);
-  formData.append("year", year);
-  formData.append("seconds", seconds);
-  formData.append("max_speed", maxSpeed);
-  formData.append("max_people", maxPeople);
-  formData.append("transmission", transmission);
-  formData.append("motor", motor);
-  formData.append("drive_side", driveSide);
-  formData.append("petrol", petrol);
-  formData.append("limitperday", limitPerday);
-  formData.append("deposit", deposit);
-  formData.append("premium_protection", premiumProtection);
-  formData.append("price_in_aed", priceInAED);
-  formData.append("price_in_usd", priceInUSD);
-  formData.append("price_in_aed_sale", priceInAEDSale);
-  formData.append("price_in_usd_sale", priceInUSDSale);
-  formData.append("inclusive", inclusive);
-  formData.append("cover", cover);
-  formData.append("images", image1);
-  formData.append("images", image2);
-  formData.append("brand_id", brandTitle);
-  formData.append("model_id", modelTitle);
-  formData.append("city_id", cityTitle);
-  formData.append("category_id", categoryTitle);
-  formData.append("location_id", locationTitle);
+  formData.append("color", document.getElementById("color")?.value);
+  formData.append("year", document.getElementById("year")?.value);
+  formData.append("seconds", document.getElementById("seconds")?.value);
+  formData.append("max_speed", document.getElementById("maxSpeed")?.value);
+  formData.append("max_people", document.getElementById("maxPeople")?.value);
+  formData.append(
+    "transmission",
+    document.getElementById("transmission")?.value
+  );
+  formData.append("motor", document.getElementById("motor")?.value);
+  formData.append("drive_side", document.getElementById("driveSide")?.value);
+  formData.append("petrol", document.getElementById("petrol")?.value);
+  formData.append("limitperday", document.getElementById("limitPerDay")?.value);
+  formData.append("deposit", document.getElementById("deposit")?.value);
+  formData.append(
+    "premium_protection",
+    document.getElementById("premiumProtection")?.value
+  );
+  formData.append("price_in_aed", document.getElementById("priceInAED")?.value);
+  formData.append(
+    "price_in_usd",
+    document.getElementById("priceInAEDSale")?.value
+  );
+  formData.append(
+    "price_in_aed_sale",
+    document.getElementById("priceInAEDSale")?.value
+  );
+  formData.append(
+    "price_in_usd_sale",
+    document.getElementById("priceInUSDSale")?.value
+  );
+  formData.append("inclusive", document.getElementById("Inclusive")?.checked);
+  formData.append("cover", document.getElementById("cover")?.files[0]);
+  formData.append("images", document.getElementById("image1")?.files[0]);
+  formData.append("images", document.getElementById("image2")?.files[0]);
+  formData.append("brand_id", document.getElementById("brand")?.value);
+  formData.append("model_id", document.getElementById("model")?.value);
+  formData.append("city_id", document.getElementById("city")?.value);
+  formData.append("category_id", document.getElementById("category")?.value);
+  formData.append("location_id", document.getElementById("location")?.value);
 
   const openModal = () => {
     setChangeModal(true);
@@ -84,6 +100,7 @@ const CarsPage = () => {
 
   const closeModal = () => {
     setChangeModal(false);
+    setSelectedCar(null)
   };
 
   const getCar = async () => {
@@ -142,56 +159,119 @@ const CarsPage = () => {
 
   useEffect(() => {
     getCar();
-  }, []);
-
-  useEffect(() => {
     getBrand();
-  }, []);
-  useEffect(() => {
     getModel();
-  }, []);
-  useEffect(() => {
     getCategory();
-  }, []);
-  useEffect(() => {
     getLocation();
-  }, []);
-  useEffect(() => {
     getCity();
   }, []);
 
+  const submit = async (e) => {
+    const formData = new FormData();
 
-  const submit = async(e) => {
+    formData.append("color", document.getElementById("color")?.value);
+    formData.append("year", document.getElementById("year")?.value);
+    formData.append("seconds", document.getElementById("seconds")?.value);
+    formData.append("max_speed", document.getElementById("maxSpeed")?.value);
+    formData.append("max_people", document.getElementById("maxPeople")?.value);
+    formData.append(
+      "transmission",
+      document.getElementById("transmission")?.value
+    );
+    formData.append("motor", document.getElementById("motor")?.value);
+    formData.append("drive_side", document.getElementById("driveSide")?.value);
+    formData.append("petrol", document.getElementById("petrol")?.value);
+    formData.append(
+      "limitperday",
+      document.getElementById("limitPerDay")?.value
+    );
+    formData.append("deposit", document.getElementById("deposit")?.value);
+    formData.append(
+      "premium_protection",
+      document.getElementById("premiumProtection")?.value
+    );
+    formData.append(
+      "price_in_aed",
+      document.getElementById("priceInAED")?.value
+    );
+    formData.append(
+      "price_in_usd",
+      document.getElementById("priceInAEDSale")?.value
+    );
+    formData.append(
+      "price_in_aed_sale",
+      document.getElementById("priceInAEDSale")?.value
+    );
+    formData.append(
+      "price_in_usd_sale",
+      document.getElementById("priceInUSDSale")?.value
+    );
+    formData.append("inclusive", document.getElementById("Inclusive")?.checked);
+    formData.append("cover", document.getElementById("cover")?.files[0]);
+    formData.append("images", document.getElementById("image1")?.files[0]);
+    formData.append("images", document.getElementById("image2")?.files[0]);
+    formData.append("brand_id", document.getElementById("brand")?.value);
+    formData.append("model_id", document.getElementById("model")?.value);
+    formData.append("city_id", document.getElementById("city")?.value);
+    formData.append("category_id", document.getElementById("category")?.value);
+    formData.append("location_id", document.getElementById("location")?.value);
+
     e.preventDefault();
-    const token = localStorage.getItem("TOKEN")
-    try{
-       await axios.post("https://realauto.limsa.uz/api/cars" , formData , {
-        headers:{
-          Authorization: `Bearer ${token}`
-        }
-       });
-       toast.success("Car maulumoti muvaffaqiyatli qo'shildi")
-    }catch{
-      toast.error("Error")
-    }
-  }
-
-
-  const deleteCar = async(car) => {
-    const token = localStorage.getItem("TOKEN")
-    try{
-    await axios.delete(`https://realauto.limsa.uz/api/cars/${car?.id}` , {
-      headers:{
-        Authorization: `Bearer ${token}`
+    const token = localStorage.getItem("TOKEN");
+    try {
+      {
+        selectedCar
+          ? await axios.put(
+              `https://realauto.limsa.uz/api/cars/${selectedCar}`,
+              formData,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "multipart/form-data",
+                },
+              }
+            )
+          : await axios.post("https://realauto.limsa.uz/api/cars", formData, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "multipart/form-data",
+              },
+            });
       }
-    });
-    toast.success("deleted car");
-    getCar();
-
-    }catch{
-      toast.error("Error")
+      {
+        selectedCar
+          ? toast.success("Car maulumoti muvaffaqiyatli o'zgartirildi")
+          : toast.success("Car maulumoti muvaffaqiyatli qo'shildi");
+      }
+      closeModal();
+      setSelectedCar(null);
+      getCar();
+    } catch (error) {
+      toast.error("Error");
+      console.error(error);
     }
-  }
+  };
+
+  const deleteCar = async (car) => {
+    const token = localStorage.getItem("TOKEN");
+    try {
+      await axios.delete(`https://realauto.limsa.uz/api/cars/${car?.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      toast.success("deleted car");
+      getCar();
+    } catch {
+      toast.error("Error");
+    }
+  };
+
+  const editCar = (car) => {
+    setEditCarData(car)
+    setSelectedCar(car?.id);
+    openModal();
+  };
 
   console.log(car);
 
@@ -214,7 +294,7 @@ const CarsPage = () => {
           <thead className="text-xs text-gray-700 w-full uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr className="w-full ">
               <th scope="col" className="px-6 py-3">
-                CarPhotos
+                Image
               </th>
               <th scope="col" className="px-6 py-3">
                 CarName
@@ -226,7 +306,7 @@ const CarsPage = () => {
                 Year
               </th>
               <th scope="col" className="px-6 py-3">
-                SecondsIn100km/h
+                100km/h
               </th>
               <th scope="col" className="px-6 py-3">
                 MaxSpeed
@@ -235,34 +315,11 @@ const CarsPage = () => {
                 Maxpeople
               </th>
               <th scope="col" className="px-6 py-3">
-                Motor
+                Price
               </th>
+
               <th scope="col" className="px-6 py-3">
-                Petrol
-              </th>
-              <th scope="col" className="px-6 py-3">
-                PremiumProtection
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Price_in_aed
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Price_in_aed_sale
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Price_in_usd
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Price_in_sale
-              </th>
-              <th scope="col" className="px-6 py-3">
-                FourDaysPrice
-              </th>
-              <th scope="col" className="px-6 py-3">
-                ThreeDaysPrice
-              </th>
-              <th scope="col" className="px-6 py-3">
-                TwoDaysPrice
+                TwoDays Price
               </th>
               <th scope="col" className="px-6 py-3">
                 Deposit
@@ -310,22 +367,14 @@ const CarsPage = () => {
                 <td className="px-6 py-4">{car?.seconds} sekund</td>
                 <td className="px-6 py-4">{car?.max_speed} km/h</td>
                 <td className="px-6 py-4">{car?.max_people}</td>
-                <td className="px-6 py-4">{car?.motor}</td>
-                <td className="px-6 py-4">{car?.petrol}</td>
-                <td className="px-6 py-4">{car?.premium_protection}</td>
-                <td className="px-6 py-4">{car?.price_in_aed}</td>
-                <td className="px-6 py-4">{car?.price_in_aed_sale}</td>
-                <td className="px-6 py-4">{car?.price_in_usd}</td>
-                <td className="px-6 py-4">{car?.price_in_usd_sale}</td>
-                <td className="px-6 py-4">{car?.four_days_price} USD</td>
-                <td className="px-6 py-4">{car?.three_days_price} USD</td>
+                <td className="px-6 py-4">${car?.price_in_usd}</td>
                 <td className="px-6 py-4">{car?.two_days_price} USD</td>
                 <td className="px-6 py-4">{car?.deposit} %</td>
                 <td className="px-6 py-4">{car?.drive_side}</td>
 
                 <td className="flex flex-col mt-[30px] gap-[10px]">
                   <button
-                    href="#"
+                    onClick={() => editCar(car)}
                     className="font-medium cursor-pointer text-blue-600 dark:text-blue-500 hover:underline"
                   >
                     Edit
@@ -349,12 +398,13 @@ const CarsPage = () => {
           >
             <div className="mx-auto" onClick={(e) => e?.stopPropagation()}>
               <form
-               onSubmit={submit}
-              class="flex flex-wrap max-w-[1200px] p-[30px] rounded-[8px] w-full bg-gray-200 gap-[30px] mx-auto">
+                onSubmit={submit}
+                class="flex flex-wrap max-w-[1200px] p-[30px] rounded-[8px] w-full bg-gray-200 gap-[30px] mx-auto"
+              >
                 <div class="relative z-0 w-full max-w-[200px] mb-5 group">
                   <input
-                    onChange={() => setColor(e?.target?.value)}
-                    // value={color}
+                    defaultValue={selectedCar ? editCarData?.color : ""}
+                    id="color"
                     type="text"
                     className="max-w-[200px] px-[10px] w-full outline-none border-1 rounded-[3px]"
                     placeholder="Enter"
@@ -365,11 +415,10 @@ const CarsPage = () => {
 
                 <div class="relative z-0 w-full max-w-[200px] mb-5 group">
                   <input
-                    onChange={() => setYear(e?.target?.value)}
-                    // value={year}
+                    defaultValue={selectedCar ? editCarData?.year : ""}
                     type="number"
                     name="floating_email"
-                    id="number"
+                    id="year"
                     className="max-w-[200px] px-[10px] w-full outline-none border-1 rounded-[3px]"
                     placeholder="Enter"
                     required
@@ -379,11 +428,10 @@ const CarsPage = () => {
 
                 <div class="relative z-0 w-full max-w-[200px] mb-5 group">
                   <input
-                    onChange={() => setSeconds(e?.target?.value)}
-                    // value={seconds}
+                    defaultValue={selectedCar ? editCarData?.seconds : ""}
                     type="number"
                     name="floating_email"
-                    id="Seconds"
+                    id="seconds"
                     className="max-w-[200px] px-[10px] w-full outline-none border-1 rounded-[3px]"
                     placeholder="Enter"
                     required
@@ -393,11 +441,10 @@ const CarsPage = () => {
 
                 <div class="relative z-0 w-full max-w-[200px] mb-5 group">
                   <input
-                    onChange={() => setMaxSpeed(e?.target?.value)}
-                    // value={maxSpeed}
+                    defaultValue={selectedCar ? editCarData?.max_speed : ""}
                     type="number"
                     name="floating_email"
-                    id="max-speed"
+                    id="maxSpeed"
                     className="max-w-[200px] px-[10px] w-full outline-none border-1 rounded-[3px]"
                     placeholder="Enter"
                     required
@@ -407,11 +454,10 @@ const CarsPage = () => {
 
                 <div class="relative z-0 w-full max-w-[200px] mb-5 group">
                   <input
-                    onChange={() => setMaxPeople(e?.target?.value)}
-                    // value={maxPeople}
+                    defaultValue={selectedCar ? editCarData?.max_people : ""}
                     type="number"
                     name="floating_email"
-                    id="max-people"
+                    id="maxPeople"
                     className="max-w-[200px] px-[10px] w-full outline-none border-1 rounded-[3px]"
                     placeholder="Enter"
                     required
@@ -421,11 +467,10 @@ const CarsPage = () => {
 
                 <div class="relative z-0 w-full max-w-[200px] mb-5 group">
                   <input
-                    onChange={() => setTransmission(e?.target?.value)}
-                    // value={transmission}
+                    defaultValue={selectedCar ? editCarData?.transmission : ""}
                     type="text"
                     name="floating_email"
-                    id="Transmission"
+                    id="transmission"
                     className="max-w-[200px] px-[10px] w-full outline-none border-1 rounded-[3px]"
                     placeholder="Enter"
                     required
@@ -435,8 +480,7 @@ const CarsPage = () => {
 
                 <div class="relative z-0 w-full max-w-[200px] mb-5 group">
                   <input
-                    onChange={() => setMotor(e?.target?.value)}
-                    // value={motor}
+                    defaultValue={selectedCar ? editCarData?.motor : ""}
                     type="text"
                     name="floating_email"
                     id="motor"
@@ -449,11 +493,10 @@ const CarsPage = () => {
 
                 <div class="relative z-0 w-full max-w-[200px] mb-5 group">
                   <input
-                    onChange={() => setDriveSide(e?.target?.value)}
-                    // value={driveSide}
+                    defaultValue={selectedCar ? editCarData?.drive_side : ""}
                     type="text"
                     name="floating_email"
-                    id="drive"
+                    id="driveSide"
                     className="max-w-[200px] px-[10px] w-full outline-none border-1 rounded-[3px]"
                     placeholder="Enter"
                     required
@@ -463,8 +506,7 @@ const CarsPage = () => {
 
                 <div class="relative z-0 w-full max-w-[200px] mb-5 group">
                   <input
-                    onChange={() => setPetrol(e?.target?.value)}
-                    // value={petrol}
+                    defaultValue={selectedCar ? editCarData?.petrol : ""}
                     type="text"
                     name="floating_email"
                     id="petrol"
@@ -477,11 +519,10 @@ const CarsPage = () => {
 
                 <div class="relative z-0 w-full max-w-[200px] mb-5 group">
                   <input
-                    onChange={() => setLimitPerday(e?.target?.value)}
-                    // value={limitPerday}
+                    defaultValue={selectedCar ? editCarData?.limitperday : ""}
                     type="number"
                     name="floating_email"
-                    id="limit-per-day"
+                    id="limitPerDay"
                     className="max-w-[200px] px-[10px] w-full outline-none border-1 rounded-[3px]"
                     placeholder="Enter"
                     required
@@ -491,8 +532,7 @@ const CarsPage = () => {
 
                 <div class="relative z-0 w-full max-w-[200px] mb-5 group">
                   <input
-                    onChange={() => setDeposit(e?.target?.value)}
-                    // value={deposit}
+                    defaultValue={selectedCar ? editCarData?.deposit : ""}
                     type="number"
                     name="floating_email"
                     id="deposit"
@@ -505,11 +545,12 @@ const CarsPage = () => {
 
                 <div class="relative z-0 w-full max-w-[200px] mb-5 group">
                   <input
-                    onChange={() => setPremiumProtection(e?.target?.value)}
-                    // value={premiumProtection}
+                    defaultValue={
+                      selectedCar ? editCarData?.premium_protection : ""
+                    }
                     type="number"
                     name="floating_email"
-                    id="Premiumprotection"
+                    id="premiumProtection"
                     className="max-w-[200px] px-[10px] w-full outline-none border-1 rounded-[3px]"
                     placeholder="Enter"
                     required
@@ -519,11 +560,10 @@ const CarsPage = () => {
 
                 <div class="relative z-0 w-full max-w-[200px] mb-5 group">
                   <input
-                    onChange={() => setPriceInAED(e?.target?.value)}
-                    // value={priceInAED}
+                    defaultValue={selectedCar ? editCarData?.price_in_aed : ""}
                     type="number"
                     name="floating_email"
-                    id="price-aed"
+                    id="priceInAED"
                     className="max-w-[200px] px-[10px] w-full outline-none border-1 rounded-[3px]"
                     placeholder="Enter"
                     required
@@ -533,11 +573,10 @@ const CarsPage = () => {
 
                 <div class="relative z-0 w-full max-w-[200px] mb-5 group">
                   <input
-                    onChange={() => setPriceInUSD(e?.target?.value)}
-                    // value={priceInUSD}
+                    defaultValue={selectedCar ? editCarData?.price_in_usd : ""}
                     type="number"
                     name="floating_email"
-                    id="price in usd"
+                    id="priceInUSD"
                     className="max-w-[200px] px-[10px] w-full outline-none border-1 rounded-[3px]"
                     placeholder="Enter"
                     required
@@ -547,11 +586,12 @@ const CarsPage = () => {
 
                 <div class="relative z-0 w-full max-w-[200px] mb-5 group">
                   <input
-                    onChange={() => setPriceInAEDSale(e?.target?.value)}
-                    // value={priceInAEDSale}
+                    defaultValue={
+                      selectedCar ? editCarData?.price_in_aed_sale : ""
+                    }
                     type="number"
                     name="floating_email"
-                    id="price-aed-sale"
+                    id="priceInAEDSale"
                     className="max-w-[200px] px-[10px] w-full outline-none border-1 rounded-[3px]"
                     placeholder="Enter"
                     required
@@ -561,11 +601,12 @@ const CarsPage = () => {
 
                 <div class="relative z-0 w-full max-w-[200px] mb-5 group">
                   <input
-                    onChange={() => setPriceInUSDSale(e?.target?.value)}
-                    // value={priceInUSDSale}
+                    defaultValue={
+                      selectedCar ? editCarData?.price_in_aed_sale : ""
+                    }
                     type="number"
                     name="floating_email"
-                    id="price-in-usd-sale"
+                    id="priceInUSDSale"
                     className="max-w-[200px] px-[10px] w-full outline-none border-1 rounded-[3px]"
                     placeholder="Enter"
                     required
@@ -575,8 +616,7 @@ const CarsPage = () => {
 
                 <div class="relative flex items-center justify-center z-0 w-full max-w-[200px] mb-[5px] group">
                   <input
-                    onClick={() => setInclusive(!inclusive)}
-                    // value={inclusive}
+                    defaultValue={selectedCar ? editCarData?.inclusive : ""}
                     type="checkbox"
                     name="floating_email"
                     id="Inclusive"
@@ -589,8 +629,6 @@ const CarsPage = () => {
 
                 <div class="relative z-0 w-full max-w-[200px] mb-5 group">
                   <input
-                    onChange={() => setCover(e?.target?.files?.[0])}
-                    // value={cover}
                     type="file"
                     name="floating_email"
                     id="cover"
@@ -603,8 +641,6 @@ const CarsPage = () => {
 
                 <div class="relative z-0 w-full max-w-[200px] mb-5 group">
                   <input
-                    onChange={() => setImage1(e?.target?.files?.[0])}
-                    // value={image1}
                     type="file"
                     name="floating_email"
                     id="image1"
@@ -617,11 +653,9 @@ const CarsPage = () => {
 
                 <div class="relative z-0 w-full max-w-[200px] mb-5 group">
                   <input
-                    onChange={() => setImage2(e?.target?.files?.[0])}
-                    // value={image2}
                     type="file"
                     name="floating_email"
-                    id="image-2"
+                    id="image2"
                     className="max-w-[200px] px-[10px] w-full outline-none border-1 rounded-[3px]"
                     placeholder="Enter"
                     required
@@ -631,8 +665,8 @@ const CarsPage = () => {
 
                 <div class="relative z-0 w-full max-w-[200px] mb-5 group">
                   <select
-                     onChange={(e) => setBrandTitle(e?.target?.value)}
-                    //  value={brandTitle}
+                    defaultValue={selectedCar ? brandData?.title : ""}
+                    id="brand"
                   >
                     {brandData?.map((br, i) => (
                       <option key={i} value={br.id}>
@@ -644,8 +678,8 @@ const CarsPage = () => {
 
                 <div class="relative z-0 w-full max-w-[200px] mb-5 group">
                   <select
-                     onChange={(e) => setModelTitle(e?.target?.value)}
-                    //  value={modelTitle}
+                    id="model"
+                    defaultValue={selectedCar ? editCarData?.value : ""}
                   >
                     {modelData?.map((md, i) => (
                       <option key={i} value={md.id}>
@@ -653,26 +687,25 @@ const CarsPage = () => {
                       </option>
                     ))}
                   </select>
-                  
                 </div>
 
                 <div class="relative z-0 w-full max-w-[200px] mb-5 group">
                   <select
-                     onChange={(e) => setCityTitle(e?.target?.value)}
-                    //  value={cityTitle}
+                    id="city"
+                    defaultValue={selectedCar ? editCarData?.price_in_aed : ""}
                   >
                     {cityData?.map((ct, i) => (
-                      <option key={i} value={ct.id}>
+                      <option key={i} value={ct?.id}>
                         {ct.name}
                       </option>
                     ))}
                   </select>
-                  
                 </div>
 
                 <div class="relative z-0 w-full max-w-[200px] mb-5 group">
                   <select
-                     onChange={(e) => setCategoryTitle(e?.target?.value)}
+                    id="category"
+                    // onChange={(e) => setCategoryTitle(e?.target?.value)}
                     //  value={categoryTitle}
                   >
                     {categoryData?.map((categ, i) => (
@@ -681,13 +714,13 @@ const CarsPage = () => {
                       </option>
                     ))}
                   </select>
-                  
                 </div>
 
                 <div class="relative z-0 w-full max-w-[200px] mb-5 group">
                   <select
-                     onChange={(e) => setLocationTitle(e?.target?.value)}
+                    // onChange={(e) => setLocationTitle(e?.target?.value)}
                     //  value={locationTitle}
+                    id="location"
                   >
                     {locationData?.map((loc, i) => (
                       <option key={i} value={loc.id}>
@@ -695,7 +728,6 @@ const CarsPage = () => {
                       </option>
                     ))}
                   </select>
-                 
                 </div>
 
                 <button
@@ -711,7 +743,7 @@ const CarsPage = () => {
           ""
         )}
       </div>
-      <ToastContainer/>
+      <ToastContainer />
     </div>
   );
 };

@@ -18,27 +18,12 @@ const BrandsPage = () => {
   console.log(selectedBrand);
   console.log(photo);
 
+  console.log(brandData);
+
   const formData = new FormData();
   formData.append("title", title);
-  formData.append("image_src", photo);
+  formData.append("images", photo);
 
-
-  const closeImageEditModal = () => {
-    setPhoto("")
-  }
-
-  const handleFileChange = (e) => {
-    const file = e?.target?.files[0];
-    if (file) {
-      const reader = new FileReader();
-
-      reader.onloadend = () => {
-        setImagePreview(reader?.result);
-      };
-
-      reader.readAsDataURL(file);
-    }
-  };
 
   const editBrands = (brand) => {
     setSelectedBrand(brand?.id);
@@ -75,8 +60,8 @@ const BrandsPage = () => {
       setTitle("");
       setImagePreview(null);
       getBrands();
-    } catch {
-      toast.error("Error");
+    } catch(error) {
+      console.error(error);
     }
   };
 
@@ -97,7 +82,6 @@ const BrandsPage = () => {
     }
   };
 
-  console.log(imagePreview);
 
   const getBrands = async () => {
     try {
@@ -192,81 +176,51 @@ const BrandsPage = () => {
           }}
           className="fixed modal z-[100] top-0 left-0 h-[100%] mb-[30px] w-[100%] flex items-center justify-center px-[20px]"
         >
-          <form
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-            onSubmit={submit}
-            className="max-w-[600px] w-full mx-auto bg-gray-400 p-[50px] rounded-[8px]"
-          >
-            <div className="mb-5">
-              <label
-                for="title"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Brand Name
-              </label>
-              <input
-                onChange={(e) => setTitle(e?.target?.value)}
-                value={title}
-                type="text"
-                id="title"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="name@flowbite.com"
-                required
-              />
-            </div>
-            <div className="relative">
-              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                Upload photo
-              </label>
-              {selectedBrand ? (
-                <>
-                  <button
-                  type="button"
-                    className={
-                        "absolute right-[10px] top-[30px] cursor-pointer rounded-[4px] bg-red-700"
-                    }
-                    onClick={() => closeImageEditModal()}
-                  >
-                    <IoClose className="text-[32px] text-white" />
-                  </button>
-                  <img
-                    className={closeImageEditModal}
-                    src={`https://realauto.limsa.uz/api/uploads/images/${editData?.image_src}`}
-                    alt=""
-                  />
-                </>
-              ) : (
-                ""
-              )}
-              {imagePreview ? (
-                <img
-                  className="w-full h-[250px] object-contain flex bg-gray-900 mb-[20px] rounded-[6px]"
-                  src={imagePreview}
-                  alt="da"
-                />
-              ) : (
-                ""
-              )}
-              <input
-                onChange={(e) => {
-                  setPhoto(e?.target?.files?.[0]), handleFileChange(e);
-                }}
-                type="file"
-                accept="image/*"
-                name="photo"
-                id="photo"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-              />
-            </div>
-            <button
-              type="submit"
-              className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full  px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          <div
+          onClick={(e) => e.stopPropagation()}
+          className="max-w-[600px] w-full mx-auto">
+            <form
+              onSubmit={submit}
+              className="max-w-[600px] w-full mx-auto bg-gray-400 p-[50px] rounded-[8px]"
             >
-              {selectedBrand ? "Save Changes" : "Add Brand"}
-            </button>
-          </form>
+              <div className="mb-5">
+                <label
+                  for="title"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Brand Name
+                </label>
+                <input
+                  onChange={(e) => setTitle(e?.target?.value)}
+                  value={title}
+                  type="text"
+                  id="title"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="name@flowbite.com"
+                  required
+                />
+              </div>
+              <div className="relative">
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  Upload photo
+                </label>
+
+                <input
+                  onChange={(e) => setPhoto(e?.target?.files?.[0])}
+                  type="file"
+                  id="photo"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full  px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                {selectedBrand ? "Save Changes" : "Add Brand"}
+              </button>
+            </form>
+          </div>
         </div>
       ) : (
         ""
